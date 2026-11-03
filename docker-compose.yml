@@ -1,0 +1,22 @@
+version: "v5.7.0"
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: words_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 01
+    volumes:
+      - pg_data:/var/lib/postgresql
+  words_bot:
+    build: .
+    image: words_image:alpine
+    container_name: words_t_con
+    restart: always
+    command:
+      - python3 main.py
+    depends_on:
+      - db
+volumes:
+  pg_data:
